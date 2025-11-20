@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Calculadora de Comisiones - App Pro</title>
 
 <style>
@@ -36,52 +36,28 @@
 }
 
 /* ===== ESTILO GENERAL ===== */
-html {
-  height: 100%;
-  box-sizing: border-box;
-}
-*, *::before, *::after { box-sizing: inherit; }
-
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: var(--bg);
-  background-color: var(--bg-fallback);
+  background-color: var(--bg-fallback); /* fallback oscuro */
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-  min-width: 100vw;
-  padding: 0;
-  overflow: hidden; /* evita doble scrollbar; el scroll será interno en .app */
+  padding: 25px;
+  min-height: 100vh; /* asegurar que el fondo cubra toda la pantalla */
 }
 
-/* Ajuste: en pantallas grandes mostrar como tarjeta centrada (ancho máximo razonable).
-   En pantallas pequeñas (media queries más abajo) se volverá fullscreen y se aumentarán tamaños. */
 .app {
-  /* antes era full-viewport; ahora limitamos en pantallas grandes para "look normal" */
-  width: min(980px, 95%);
-  max-width: 980px;
-  height: auto;
-  max-height: calc(100vh - 80px);
-  margin: clamp(20px, 6vw, 40px) auto;
-  padding: clamp(14px, 4vw, 36px);
-  background: var(--card);
-  border-radius: clamp(10px, 1.5vw, 28px);
+  width: 420px;
+  max-width: 95%;
+  background: var(--card); /* card oscuro */
+  padding: 28px;
+  border-radius: 25px;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.04); /* borde sutil claro sobre fondo oscuro */
   box-shadow: 0 18px 40px var(--shadow);
   animation: fadeIn 0.7s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  overflow-y: auto; /* permite desplazamiento si el contenido excede la altura */
-  -webkit-overflow-scrolling: touch;
-  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -92,54 +68,66 @@ body {
 h1 {
   margin: 0;
   text-align: center;
-  font-size: clamp(20px, 4.5vw, 26px);
+  font-size: 26px;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
-  margin-bottom: 70px; /* separa título del primer campo */
+  margin-bottom: 50px; /* separa título del primer campo */
 }
 
-/* Labels responsivos: normales en desktop, más grandes en móvil */
 label {
-  font-size: clamp(13px, 1.6vw, 16px);
+  font-size: 14px;
   color: var(--muted);
 }
 
-/* Inputs y selects: unificados y responsivos (padding, altura y tamaño de fuente) */
+/* Inputs: contraste para tema oscuro */
 input,
 select {
   width: 100%;
-  padding: clamp(12px, 2.5vw, 16px);
-  height: clamp(48px, 6.5vw, 60px);
+  padding: 14px;
+  height: 50px; /* MISMA ALTURA FIJA */
   box-sizing: border-box;
   border-radius: 15px;
   border: none;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.03); /* oscuro/translúcido */
   color: var(--text);
-  font-size: clamp(15px, 2.8vw, 18px); /* texto más grande en móviles */
+  font-size: 16px;
   outline: none;
   transition: 0.25s;
 }
 
-/* Forzar tamaño y color de las opciones del dropdown (mejor visibilidad) */
+/* focus más sutil y consistente */
+input:focus,
+select:focus {
+  background: rgba(255,255,255,0.06);
+}
+
+/* Asegurar que los <select> y su listado sean oscuros con texto blanco */
+select {
+  color: #ffffff; /* texto blanco dentro del select */
+  background: rgba(255,255,255,0.03);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Forzar fondo oscuro y texto blanco en las opciones del dropdown */
 select option {
-  background: #071220 !important;
-  color: #ffffff !important;
-  font-size: clamp(14px, 3.2vw, 18px) !important;
-  padding: 8px 12px !important;
+  background: #071220 !important; /* fondo oscuro del listado */
+  color: #ffffff !important;      /* texto blanco */
 }
 
 button {
   width: 100%;
-  padding: clamp(12px, 3vw, 15px);
+  padding: 15px;
   margin-top: 22px;
-  border-radius: 14px;
+  border-radius: 16px;
   border: none;
   cursor: pointer;
-  font-size: clamp(14px, 3.2vw, 16px);
+  font-size: 16px;
   font-weight: 700;
   color: white;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
@@ -159,7 +147,7 @@ button:hover {
 /* resultado: fondo y texto adaptados para tema oscuro */
 .result-box {
   margin-top: 28px;
-  padding: clamp(14px, 3.5vw, 20px);
+  padding: 20px;
   border-radius: 20px;
   background: rgba(255,255,255,0.02);
   display: none;
@@ -167,7 +155,7 @@ button:hover {
 }
 
 .result-line {
-  font-size: clamp(14px, 2.5vw, 16px);
+  font-size: 15px;
   margin: 6px 0;
   color: var(--text);
 }
@@ -175,7 +163,7 @@ button:hover {
 .big-total {
   margin-top: 18px;
   text-align: center;
-  font-size: clamp(22px, 6vw, 34px);
+  font-size: 34px;
   font-weight: 900;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
@@ -191,6 +179,7 @@ select {
   width: 100%;
   padding: 14px;
   height: 50px; /* MISMA ALTURA FIJA */
+  box-sizing: border-box;
 }
 
 /* Añadir espaciado uniforme entre cajas de input */
@@ -198,88 +187,15 @@ select {
   margin-top: 10px;
 }
 
-/* Media queries mejoradoss */
-@media (max-width: 900px) {
-  /* En tablets/pequeños portátiles acercamos un poco al modo móvil */
-  .app {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    height: 100vh;
-    padding: clamp(16px, 5vw, 28px);
-    border-radius: 14px;
-  }
-}
-
-/* MÓVIL: ocupar todo el viewport y agrandar elementos para que se vean "grandes a lo ancho y largo" */
-@media (max-width: 720px) {
-  body {
-    padding: 0;
-    align-items: stretch; /* permitir que .app ocupe todo el alto */
-  }
-  .app {
-    width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
-    margin: 0;
-    padding: clamp(18px, 6vw, 30px);
-    border-radius: 6px; /* menos radio para aprovechar el espacio */
-    justify-content: flex-start;
-  }
-  h1 {
-    margin-bottom: clamp(12px, 6vw, 20px);
-    font-size: clamp(20px, 8vw, 28px);
-  }
-
-  /* Inputs, selects y botones más grandes en móvil para mejor usabilidad */
-  input,
-  select {
-    padding: clamp(16px, 6vw, 22px);
-    height: clamp(64px, 10vw, 78px);
-    font-size: clamp(17px, 6vw, 20px);
-    border-radius: 12px;
-  }
-  button {
-    padding: clamp(14px, 5vw, 18px);
-    height: clamp(56px, 8.5vw, 64px);
-    font-size: clamp(16px, 5vw, 18px);
-  }
-
-  select option {
-    font-size: clamp(16px, 6vw, 20px) !important;
-    padding: 10px 14px !important;
-  }
-
-  .result-line {
-    font-size: clamp(16px, 6vw, 20px);
-  }
-
-  .result-box {
-    padding: clamp(16px, 5vw, 22px);
-  }
-  .big-total {
-    font-size: clamp(20px, 10vw, 36px);
-  }
-}
-
-/* Ajustes extra para pantallas muy pequeñas */
-@media (max-width: 360px) {
-  body {
-    padding: 6px;
-  }
-  .app {
-    border-radius: 6px;
-  }
-  .input-box {
-    margin-top: 8px;
-  }
-}
-
 
 
 
 </style>
 </head>
+
+
+
+
 
 <body>
 <div class="app">
