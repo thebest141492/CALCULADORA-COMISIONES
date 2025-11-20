@@ -58,16 +58,18 @@ body {
   overflow: hidden; /* evita doble scrollbar; el scroll será interno en .app */
 }
 
-/* Convertir .app en pantalla completa adaptable */
+/* Ajuste: en pantallas grandes mostrar como tarjeta centrada (ancho máximo razonable).
+   En pantallas pequeñas (media queries más abajo) se volverá fullscreen y se aumentarán tamaños. */
 .app {
-  width: 100vw;
-  height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  margin: 0;
+  /* antes era full-viewport; ahora limitamos en pantallas grandes para "look normal" */
+  width: min(980px, 95%);
+  max-width: 980px;
+  height: auto;
+  max-height: calc(100vh - 80px);
+  margin: clamp(20px, 6vw, 40px) auto;
   padding: clamp(14px, 4vw, 36px);
   background: var(--card);
-  border-radius: clamp(0px, 2vw, 28px); /* pequeño radio en pantallas grandes, 0 en pequeñas */
+  border-radius: clamp(10px, 1.5vw, 28px);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255,255,255,0.04);
@@ -209,37 +211,66 @@ select {
 }
 
 /* Media queries mejoradoss */
-@media (max-width: 720px) {
+@media (max-width: 900px) {
+  /* En tablets/pequeños portátiles acercamos un poco al modo móvil */
   .app {
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
     height: 100vh;
-    border-radius: 12px;
-    padding: clamp(10px, 4vw, 18px);
-  }
-  h1 {
-    margin-bottom: clamp(14px, 4vw, 30px);
-    font-size: clamp(18px, 6vw, 24px);
-  }
-  .big-total {
-    font-size: clamp(18px, 8vw, 28px);
+    padding: clamp(16px, 5vw, 28px);
+    border-radius: 14px;
   }
 }
 
-@media (max-width: 400px) {
-  body { padding: 6px; }
-  .app { width: 100vw; margin: 0; border-radius: 12px; }
-  h1 { font-size: clamp(16px, 8vw, 20px); margin-bottom: 10px; }
-  .input-box { margin-top: 6px; }
-  button { padding: 10px 8px; }
+/* MÓVIL: ocupar todo el viewport y agrandar elementos para que se vean "grandes a lo ancho y largo" */
+@media (max-width: 720px) {
+  body {
+    padding: 0;
+    align-items: stretch; /* permitir que .app ocupe todo el alto */
+  }
+  .app {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+    padding: clamp(18px, 6vw, 30px);
+    border-radius: 6px; /* menos radio para aprovechar el espacio */
+    justify-content: flex-start;
+  }
+  h1 {
+    margin-bottom: clamp(12px, 6vw, 20px);
+    font-size: clamp(20px, 8vw, 28px);
+  }
+
+  /* Inputs, selects y botones más grandes en móvil para mejor usabilidad */
+  input,
+  select {
+    padding: clamp(14px, 5vw, 18px);
+    height: clamp(56px, 8.5vw, 64px);
+    font-size: clamp(16px, 5vw, 18px);
+  }
+  button {
+    padding: clamp(14px, 5vw, 18px);
+    height: clamp(56px, 8.5vw, 64px);
+    font-size: clamp(16px, 5vw, 18px);
+  }
+
+  .result-box {
+    padding: clamp(16px, 5vw, 22px);
+  }
+  .big-total {
+    font-size: clamp(20px, 10vw, 36px);
+  }
 }
 
 /* Ajustes extra para pantallas muy pequeñas */
 @media (max-width: 360px) {
   body {
-    padding: 12px;
+    padding: 6px;
   }
   .app {
-    border-radius: 16px;
+    border-radius: 6px;
   }
   .input-box {
     margin-top: 8px;
@@ -251,10 +282,6 @@ select {
 
 </style>
 </head>
-
-
-
-
 
 <body>
 <div class="app">
