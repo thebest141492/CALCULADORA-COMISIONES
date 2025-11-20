@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calculadora de Comisiones - App Pro</title>
+
+<style>
+/* ===== VARIABLES DEL SISTEMA (MODO AUTOMÁTICO) ===== */
+:root {
+  --bg: #f2f4f7;
+  --card: rgba(255, 255, 255, 0.7);
+  --text: #ffffff;
+  --muted: #d3d3d3;
+  --accent: #0066ff;
+  --accent2: #00e0b8;
+  --shadow: rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #060a11;
+    --card: rgba(255, 255, 255, 0.08);
+    --text: #ffffff;
+    --muted: #bbbbbb;
+    --shadow: rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* ===== ESTILO GENERAL ===== */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+}
+
+.app {
+  width: 420px;
+  max-width: 95%;
+  background: var(--card);
+  padding: 28px;
+  border-radius: 25px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 15px 40px var(--shadow);
+  animation: fadeIn 0.7s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 26px;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  margin-top: 6px;
+  border-radius: 15px;
+  border: none;
+  background: rgba(0,0,0,0.35);
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: 0.25s;
+}
+
+select option {
+  background: #000;
+  color: white;
+}
+
+input:focus,
+select:focus {
+  background: rgba(0,0,0,0.55);
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  transition: 0.25s;
+}
+
+button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px var(--accent2);
+}
+
+.reset {
+  background: #ff4b4b;
+  margin-top: 10px;
+}
+
+.result-box {
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.result-line {
+  font-size: 15px;
+  margin: 6px 0;
+  color: white;
+}
+
+.big-total {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 34px;
+  font-weight: 900;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Unificar tamaño de inputs y selects */
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  height: 50px; /* MISMA ALTURA FIJA */
+  box-sizing: border-box;
+}
+
+
+
+
+</style>
+</head>
+
+
+
+
+
+<body>
+<div class="app">
+  <h1>Calculadora de Comisiones</h1>
+
+  <div class="input-box">
+    <label>Monto del servicio (MXN)</label>
+    <input type="number" id="monto" placeholder="Ejemplo: 200" />
+  </div>
+
+  <div class="input-box">
+    <label>Tasa de comisión (%)</label>
+    <input type="number" id="tasa" value="4.06" />
+  </div>
+
+  <div class="input-box">
+    <label>Tipo de ganancia</label>
+    <select id="tipoGanancia">
+      <option value="fija">Ganancia fija (MXN)</option>
+      <option value="porcentaje">Porcentaje (%)</option>
+    </select>
+    <input type="number" id="ganancia" placeholder="Ejemplo: 5" style="margin-top: 8px" />
+  </div>
+
+  <div class="input-box">
+    <label>Redondeo</label>
+    <select id="redondeo">
+      <option value="none">Sin redondear</option>
+      <option value="roundUp">Redondear</option>
+    </select>
+  </div>
+
+  <button id="btnCalc">CALCULAR</button>
+  <button class="reset" id="btnReset">REINICIAR</button>
+
+  <div class="result-box" id="resultado">
+    <div class="result-line">Comisión de la terminal: <strong id="comisionTxt"></strong></div>
+    <div class="result-line">Mínimo sin perder: <strong id="minimoTxt"></strong></div>
+    <div class="result-line">Ganancia aplicada: <strong id="gananciaTxt"></strong></div>
+    <div class="big-total" id="totalTxt"></div>
+  </div>
+</div>
+
+<script>
+function money(v) {
+  return Number(v).toLocaleString("es-MX", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+const monto = document.getElementById("monto");
+const tasa = document.getElementById("tasa");
+const tipo = document.getElementById("tipoGanancia");
+const ganancia = document.getElementById("ganancia");
+const red = document.getElementById("redondeo");
+const res = document.getElementById("resultado");
+
+const tCom = document.getElementById("comisionTxt");
+const tMin = document.getElementById("minimoTxt");
+const tGan = document.getElementById("gananciaTxt");
+const tTot = document.getElementById("totalTxt");
+
+
+/* ====== AUTO-GUARDADO (TASA + GANANCIA) ======== */
+
+// Cargar valores guardados
+window.addEventListener("load", () => {
+  const savedTasa = localStorage.getItem("tasaComision");
+  if (savedTasa !== null) tasa.value = savedTasa;
+
+  const savedGanancia = localStorage.getItem("gananciaValor");
+  if (savedGanancia !== null) ganancia.value = savedGanancia;
+});
+
+// Guardar automaticamente cada cambio
+tasa.addEventListener("input", () => {
+  localStorage.setItem("tasaComision", tasa.value);
+});
+
+ganancia.addEventListener("input", () => {
+  localStorage.setItem("gananciaValor", ganancia.value);
+});
+
+// ========== CALCULAR ==========
+document.getElementById("btnCalc").onclick = () => {
+  const m = Number(monto.value) || 0;
+  const t = Number(tasa.value) / 100;
+  const g = Number(ganancia.value) || 0;
+
+  const com = m * t;
+  const minimo = m / (1 - t);
+
+  let gFinal = tipo.value === "fija" ? g : minimo * (g / 100);
+
+  let total = minimo + gFinal;
+
+  if (red.value === "roundUp") {
+    total = Math.ceil(total);
+  }
+
+  tCom.textContent = "$" + money(com);
+  tMin.textContent = "$" + money(minimo);
+  tGan.textContent = "$" + money(gFinal);
+  tTot.textContent = "TOTAL: $" + money(total);
+
+  res.style.display = "block";
+};
+
+// ===== REINICIARrrrrr =====
+document.getElementById("btnReset").onclick = () => {
+  monto.value = "";
+  tasa.value = "4.06";
+  ganancia.value = "";
+  res.style.display = "none";
+
+  // Opcional: limpiar almacenamiento
+  // localStorage.removeItem("tasaComision");
+  // localStorage.removeItem("gananciaValor");
+};
+</script>
+
+</body>
+</html>
