@@ -44,22 +44,31 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2vw;
+  width: 100vw;
+  height: 100vh;
   min-height: 100vh;
+  min-width: 100vw;
+  padding: 0;
+  overflow: hidden;
 }
 
 .app {
-  width: clamp(300px, 95vw, 420px);
+  width: 98vw;
+  height: 96vh;
   max-width: 100vw;
-  margin: 0 auto;
-  padding: clamp(12px, 4vw, 28px);
+  max-height: 100vh;
+  margin: 0;
+  padding: clamp(18px, 6vw, 40px);
   background: var(--card);
-  border-radius: 20px;
+  border-radius: 32px;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255,255,255,0.04);
   box-shadow: 0 18px 40px var(--shadow);
   animation: fadeIn 0.7s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 @keyframes fadeIn {
@@ -70,18 +79,18 @@ body {
 h1 {
   margin: 0;
   text-align: center;
-  font-size: clamp(20px, 4.5vw, 26px);
+  font-size: clamp(32px, 7vw, 48px);
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
-  margin-bottom: 70px; /* separa título del primer campo */
+  margin-bottom: clamp(40px, 8vw, 80px);
 }
 
 label {
-  font-size: 14px;
+  font-size: clamp(18px, 3vw, 24px);
   color: var(--muted);
 }
 
@@ -89,14 +98,14 @@ label {
 input,
 select {
   width: 100%;
-  padding: clamp(10px, 2vw, 14px);
-  height: clamp(44px, 7vw, 50px);
+  padding: clamp(18px, 4vw, 28px);
+  height: clamp(60px, 10vw, 80px);
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 18px;
   border: none;
   background: rgba(255,255,255,0.03); /* oscuro/translúcido */
   color: var(--text);
-  font-size: clamp(14px, 3vw, 16px);
+  font-size: clamp(22px, 4vw, 32px);
   outline: none;
   transition: 0.25s;
 }
@@ -124,12 +133,12 @@ select option {
 
 button {
   width: 100%;
-  padding: clamp(12px, 3vw, 15px);
-  margin-top: 22px;
-  border-radius: 14px;
+  padding: clamp(18px, 4vw, 28px);
+  margin-top: clamp(24px, 4vw, 36px);
+  border-radius: 18px;
   border: none;
   cursor: pointer;
-  font-size: clamp(14px, 3.2vw, 16px);
+  font-size: clamp(22px, 4vw, 32px);
   font-weight: 700;
   color: white;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
@@ -148,24 +157,24 @@ button:hover {
 
 /* resultado: fondo y texto adaptados para tema oscuro */
 .result-box {
-  margin-top: 28px;
-  padding: clamp(14px, 3.5vw, 20px);
-  border-radius: 20px;
+  margin-top: clamp(32px, 6vw, 48px);
+  padding: clamp(18px, 4vw, 32px);
+  border-radius: 24px;
   background: rgba(255,255,255,0.02);
   display: none;
   animation: fadeIn 0.5s ease;
 }
 
 .result-line {
-  font-size: 15px;
-  margin: 6px 0;
+  font-size: clamp(20px, 3vw, 28px);
+  margin: 10px 0;
   color: var(--text);
 }
 
 .big-total {
-  margin-top: 18px;
+  margin-top: clamp(24px, 5vw, 40px);
   text-align: center;
-  font-size: clamp(22px, 6vw, 34px);
+  font-size: clamp(36px, 8vw, 64px);
   font-weight: 900;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
@@ -186,31 +195,33 @@ select {
 
 /* Añadir espaciado uniforme entre cajas de input */
 .input-box {
-  margin-top: 10px;
+  margin-top: clamp(18px, 3vw, 28px);
 }
 
 /* Media queries mejorados */
 @media (max-width: 720px) {
   .app {
-    width: 98vw;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 18px;
     padding: clamp(10px, 4vw, 18px);
-    border-radius: 16px;
   }
   h1 {
-    margin-bottom: clamp(14px, 4vw, 30px);
-    font-size: clamp(18px, 6vw, 24px);
+    font-size: clamp(24px, 8vw, 36px);
+    margin-bottom: clamp(20px, 6vw, 40px);
   }
   .big-total {
-    font-size: clamp(18px, 8vw, 28px);
+    font-size: clamp(28px, 10vw, 44px);
   }
 }
 
 @media (max-width: 400px) {
-  body { padding: 6px; }
-  .app { width: 100vw; margin: 0; border-radius: 12px; }
-  h1 { font-size: clamp(16px, 8vw, 20px); margin-bottom: 10px; }
-  .input-box { margin-top: 6px; }
-  button { padding: 10px 8px; }
+  .app { border-radius: 12px; padding: 8px; }
+  h1 { font-size: clamp(18px, 10vw, 24px); margin-bottom: 10px; }
+  .input-box { margin-top: 8px; }
+  button { padding: 10px 8px; font-size: clamp(16px, 8vw, 22px);}
+  .result-line { font-size: clamp(16px, 8vw, 22px);}
+  .big-total { font-size: clamp(20px, 12vw, 32px);}
 }
 
 /* Ajustes extra para pantallas muy pequeñas */
