@@ -187,8 +187,73 @@ select {
   margin-top: 10px;
 }
 
+/* ===== Ajustes responsivos: móviles más grandes y pantallas altas normales ===== */
+html, body {
+  height: 100%;
+}
 
+/* Dar más espacio lateral en pantallas pequeñas y permitir que la app use vw */
+body {
+  padding: 4vw;
+}
 
+/* Hacer que la card se adapte al ancho de la pantalla, limitar altura y permitir scroll interno */
+.app {
+  width: min(420px, 96vw);
+  max-width: 100%;
+  max-height: calc(100vh - 8vh);
+  overflow: auto;
+  padding: clamp(16px, 4vw, 28px);
+  border-radius: clamp(12px, 4vw, 25px);
+}
+
+/* Móviles: aumentar tamaños para mejor legibilidad y targets táctiles */
+@media (max-width: 600px) {
+  h1 {
+    font-size: clamp(20px, 8vw, 30px);
+    margin-bottom: 28px;
+  }
+
+  input,
+  select {
+    height: 60px;
+    font-size: 18px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  button {
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 14px;
+  }
+
+  .big-total {
+    font-size: clamp(28px, 10vw, 40px);
+  }
+
+  .result-box {
+    padding: 16px;
+  }
+}
+
+/* Pantallas muy grandes / alta resolución: mantener apariencia "normal" y dimensiones fijas */
+@media (min-width: 1400px) {
+  .app {
+    width: 420px;
+    padding: 28px;
+    border-radius: 25px;
+  }
+
+  h1 { font-size: 26px; }
+  input, select { height: 50px; font-size: 16px; }
+  .big-total { font-size: 34px; }
+}
+
+/* Evitar transformaciones inesperadas en pantallas HiDPI */
+@media (min-resolution: 2dppx) {
+  .app { transform: none; }
+}
 
 </style>
 </head>
