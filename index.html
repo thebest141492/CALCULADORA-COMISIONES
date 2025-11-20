@@ -10,7 +10,9 @@
 :root {
   /* Fondo en degradado claro y colores de acento modernos */
   --bg: linear-gradient(180deg, #f5f8ff 0%, #eef6ff 100%);
-  --card: rgba(255, 255, 255, 0.7);
+  --bg-fallback: #f5f8ff; /* fallback si el gradiente no se aplica */
+  /* card ahora con un sutil tinte en degradado para evitar blanco plano */
+  --card: linear-gradient(135deg, rgba(124,58,237,0.10), rgba(6,182,212,0.06));
   --text: #0f1724;
   --muted: #68707a;
   --accent: #7c3aed;   /* violeta moderno */
@@ -22,6 +24,7 @@
   :root {
     /* Fondo oscuro con degradado profundo */
     --bg: linear-gradient(180deg, #071029 0%, #021022 100%);
+    --bg-fallback: #071029;
     --card: rgba(10, 18, 30, 0.6);
     --text: #e6eef8;
     --muted: #9aa6b2;
@@ -36,9 +39,11 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: var(--bg);
+  background-color: var(--bg-fallback); /* fallback por si no se renderiza el gradiente */
   display: flex;
   justify-content: center;
   padding: 25px;
+  min-height: 100vh; /* asegurar que el fondo cubra toda la pantalla */
 }
 
 .app {
@@ -76,6 +81,7 @@ label {
   color: var(--muted);
 }
 
+/* Inputs: mayor contraste con el card y coherencia con tema */
 input,
 select {
   width: 100%;
@@ -84,21 +90,26 @@ select {
   box-sizing: border-box;
   border-radius: 15px;
   border: none;
-  background: rgba(255,255,255,0.06); /* versión para modo claro; se verá bien con backdrop */
+  background: rgba(255,255,255,0.08); /* ligero contraste sobre el card */
   color: var(--text);
   font-size: 16px;
   outline: none;
   transition: 0.25s;
 }
 
-select option {
-  background: #000;
-  color: white;
+/* contraste en modo oscuro */
+@media (prefers-color-scheme: dark) {
+  input,
+  select {
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+  }
 }
 
+/* focus más sutil y consistente en ambos modos */
 input:focus,
 select:focus {
-  background: rgba(0,0,0,0.55);
+  background: rgba(255,255,255,0.14);
 }
 
 button {
@@ -125,19 +136,26 @@ button:hover {
   margin-top: 10px;
 }
 
+/* resultado: fondo y texto adaptados para no perderse en blanco */
 .result-box {
   margin-top: 28px;
   padding: 20px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.04); /* sutil sombra para separar del card en modo claro */
   display: none;
   animation: fadeIn 0.5s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .result-box {
+    background: rgba(255,255,255,0.03);
+  }
 }
 
 .result-line {
   font-size: 15px;
   margin: 6px 0;
-  color: white;
+  color: var(--text); /* usar color del tema en lugar de blanco fijo */
 }
 
 .big-total {
