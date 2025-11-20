@@ -48,11 +48,12 @@ body {
 }
 
 .app {
-  width: 420px;
+  width: clamp(300px, 90vw, 420px); /* mínimo 300px, máximo 420px, escala con viewport */
   max-width: 95%;
+  margin: 20px auto;
+  padding: clamp(16px, 4vw, 28px); /* padding fluido */
   background: var(--card); /* card oscuro */
-  padding: 28px;
-  border-radius: 25px;
+  border-radius: 20px;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255,255,255,0.04); /* borde sutil claro sobre fondo oscuro */
@@ -68,7 +69,7 @@ body {
 h1 {
   margin: 0;
   text-align: center;
-  font-size: 26px;
+  font-size: clamp(20px, 4.5vw, 26px);
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
   -webkit-background-clip: text;
@@ -87,14 +88,14 @@ label {
 input,
 select {
   width: 100%;
-  padding: 14px;
-  height: 50px; /* MISMA ALTURA FIJA */
+  padding: clamp(10px, 2.5vw, 14px);
+  height: clamp(44px, 6.5vw, 50px); /* MISMA ALTURA FIJA */
   box-sizing: border-box;
   border-radius: 15px;
   border: none;
   background: rgba(255,255,255,0.03); /* oscuro/translúcido */
   color: var(--text);
-  font-size: 16px;
+  font-size: clamp(14px, 2.8vw, 16px);
   outline: none;
   transition: 0.25s;
 }
@@ -122,12 +123,12 @@ select option {
 
 button {
   width: 100%;
-  padding: 15px;
+  padding: clamp(12px, 3vw, 15px);
   margin-top: 22px;
-  border-radius: 16px;
+  border-radius: 14px;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: clamp(14px, 3.2vw, 16px);
   font-weight: 700;
   color: white;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
@@ -147,7 +148,7 @@ button:hover {
 /* resultado: fondo y texto adaptados para tema oscuro */
 .result-box {
   margin-top: 28px;
-  padding: 20px;
+  padding: clamp(14px, 3.5vw, 20px);
   border-radius: 20px;
   background: rgba(255,255,255,0.02);
   display: none;
@@ -163,7 +164,7 @@ button:hover {
 .big-total {
   margin-top: 18px;
   text-align: center;
-  font-size: 34px;
+  font-size: clamp(22px, 6vw, 34px);
   font-weight: 900;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
@@ -185,6 +186,164 @@ select {
 /* Añadir espaciado uniforme entre cajas de input */
 .input-box {
   margin-top: 10px;
+}
+
+/* ===== ESTILOS RESPONSIVOS ADICIONALES ===== */
+* {
+  box-sizing: border-box; /* mejor control de tamaño en móviles */
+}
+
+/* Contenedor adaptativo: ancho máximo fijo pero se reduce en pantallas pequeñas */
+.app {
+  width: clamp(300px, 90vw, 420px); /* mínimo 300px, máximo 420px, escala con viewport */
+  max-width: 95%;
+  margin: 20px auto;
+  padding: clamp(16px, 4vw, 28px); /* padding fluido */
+  border-radius: 20px;
+  background: var(--card); /* card oscuro */
+  border: 1px solid rgba(255,255,255,0.04); /* borde sutil claro sobre fondo oscuro */
+  box-shadow: 0 18px 40px var(--shadow);
+  animation: fadeIn 0.7s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(20px, 4.5vw, 26px);
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  margin-bottom: 70px; /* separa título del primer campo */
+}
+
+label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Inputs: contraste para tema oscuro */
+input,
+select {
+  width: 100%;
+  padding: clamp(10px, 2.5vw, 14px);
+  height: clamp(44px, 6.5vw, 50px); /* MISMA ALTURA FIJA */
+  box-sizing: border-box;
+  border-radius: 15px;
+  border: none;
+  background: rgba(255,255,255,0.03); /* oscuro/translúcido */
+  color: var(--text);
+  font-size: clamp(14px, 2.8vw, 16px);
+  outline: none;
+  transition: 0.25s;
+}
+
+/* focus más sutil y consistente */
+input:focus,
+select:focus {
+  background: rgba(255,255,255,0.06);
+}
+
+/* Asegurar que los <select> y su listado sean oscuros con texto blanco */
+select {
+  color: #ffffff; /* texto blanco dentro del select */
+  background: rgba(255,255,255,0.03);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Forzar fondo oscuro y texto blanco en las opciones del dropdown */
+select option {
+  background: #071220 !important; /* fondo oscuro del listado */
+  color: #ffffff !important;      /* texto blanco */
+}
+
+button {
+  width: 100%;
+  padding: clamp(12px, 3vw, 15px);
+  margin-top: 22px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-size: clamp(14px, 3.2vw, 16px);
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  transition: 0.25s;
+}
+
+button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px var(--accent2);
+}
+
+.reset {
+  background: #ff4b4b;
+  margin-top: 10px;
+}
+
+/* resultado: fondo y texto adaptados para tema oscuro */
+.result-box {
+  margin-top: 28px;
+  padding: clamp(14px, 3.5vw, 20px);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.02);
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.result-line {
+  font-size: 15px;
+  margin: 6px 0;
+  color: var(--text);
+}
+
+.big-total {
+  margin-top: 18px;
+  text-align: center;
+  font-size: clamp(22px, 6vw, 34px);
+  font-weight: 900;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Unificar tamaño de inputs y selects */
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  height: 50px; /* MISMA ALTURA FIJA */
+  box-sizing: border-box;
+}
+
+/* Añadir espaciado uniforme entre cajas de input */
+.input-box {
+  margin-top: 10px;
+}
+
+/* Ajustes extra para pantallas muy pequeñas */
+@media (max-width: 360px) {
+  body {
+    padding: 12px;
+  }
+  .app {
+    border-radius: 16px;
+  }
+  .input-box {
+    margin-top: 8px;
+  }
 }
 
 
