@@ -75,6 +75,7 @@ h1 {
   color: transparent;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
+  margin-bottom: 70px; /* separa título del primer campo */
 }
 
 label {
@@ -102,6 +103,21 @@ select {
 input:focus,
 select:focus {
   background: rgba(255,255,255,0.06);
+}
+
+/* Asegurar que los <select> y su listado sean oscuros con texto blanco */
+select {
+  color: #ffffff; /* texto blanco dentro del select */
+  background: rgba(255,255,255,0.03);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Forzar fondo oscuro y texto blanco en las opciones del dropdown */
+select option {
+  background: #071220 !important; /* fondo oscuro del listado */
+  color: #ffffff !important;      /* texto blanco */
 }
 
 button {
@@ -164,6 +180,11 @@ select {
   padding: 14px;
   height: 50px; /* MISMA ALTURA FIJA */
   box-sizing: border-box;
+}
+
+/* Añadir espaciado uniforme entre cajas de input */
+.input-box {
+  margin-top: 10px;
 }
 
 
