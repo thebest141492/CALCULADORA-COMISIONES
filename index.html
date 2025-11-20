@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Calculadora de Comisiones - App Pro</title>
 
 <style>
@@ -21,15 +21,6 @@
   --shadow: rgba(0, 0, 0, 0.7);
 }
 
-/* Variables para tamaños y espacios del card */
-:root {
-  --app-max-width: 720px;
-  --app-padding: 28px;
-  --control-height: 50px;
-  --control-radius: 14px;
-  --gap: 12px;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     /* Fondo oscuro con degradado profundo */
@@ -45,30 +36,52 @@
 }
 
 /* ===== ESTILO GENERAL ===== */
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: inherit; }
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: var(--bg);
-  background-color: var(--bg-fallback); /* fallback oscuro */
+  background-color: var(--bg-fallback);
   display: flex;
   justify-content: center;
-  padding: 25px;
-  min-height: 100vh; /* asegurar que el fondo cubra toda la pantalla */
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  padding: 0;
+  overflow: hidden; /* evita doble scrollbar; el scroll será interno en .app */
 }
 
+/* Ajuste: en pantallas grandes mostrar como tarjeta centrada (ancho máximo razonable).
+   En pantallas pequeñas (media queries más abajo) se volverá fullscreen y se aumentarán tamaños. */
 .app {
-  /* tamaño responsivo con límite máximo */
-  width: min(420px, 96vw);
-  max-width: var(--app-max-width);
+  /* antes era full-viewport; ahora limitamos en pantallas grandes para "look normal" */
+  width: min(980px, 95%);
+  max-width: 980px;
+  height: auto;
+  max-height: calc(100vh - 80px);
+  margin: clamp(20px, 6vw, 40px) auto;
+  padding: clamp(14px, 4vw, 36px);
   background: var(--card);
-  padding: var(--app-padding);
-  border-radius: 18px;
+  border-radius: clamp(10px, 1.5vw, 28px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 18px 40px var(--shadow);
+  animation: fadeIn 0.7s ease;
   display: flex;
   flex-direction: column;
-  gap: var(--gap);
-  box-shadow: 0 18px 40px var(--shadow);
-  overflow: hidden;
-  transition: width 200ms ease, padding 200ms ease, border-radius 200ms ease;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto; /* permite desplazamiento si el contenido excede la altura */
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -79,14 +92,14 @@ body {
 h1 {
   margin: 0;
   text-align: center;
-  font-size: 26px;
+  font-size: clamp(20px, 4.5vw, 26px);
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
-  margin-bottom: 50px; /* separa título del primer campo */
+  margin-bottom: 70px; /* separa título del primer campo */
 }
 
 label {
@@ -97,11 +110,17 @@ label {
 /* Inputs: contraste para tema oscuro */
 input,
 select {
-  height: var(--control-height);
-  border-radius: var(--control-radius);
-  font-size: 16px;
-  padding: 12px;
+  width: 100%;
+  padding: clamp(10px, 2vw, 14px);
+  height: clamp(44px, 7vw, 50px);
   box-sizing: border-box;
+  border-radius: 15px;
+  border: none;
+  background: rgba(255,255,255,0.03); /* oscuro/translúcido */
+  color: var(--text);
+  font-size: clamp(14px, 3vw, 16px);
+  outline: none;
+  transition: 0.25s;
 }
 
 /* focus más sutil y consistente */
@@ -126,158 +145,143 @@ select option {
 }
 
 button {
-  min-height: calc(var(--control-height) + 8px);
-  border-radius: calc(var(--control-radius) + 2px);
-  font-size: 16px;
-  padding: 14px;
+  width: 100%;
+  padding: clamp(12px, 3vw, 15px);
+  margin-top: 22px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-size: clamp(14px, 3.2vw, 16px);
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  transition: 0.25s;
 }
 
-/* Agrupar cada bloque con gap consistente */
-.input-box {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 0; /* el gap ahora lo controla .app */
-  width: 100%;
+button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px var(--accent2);
+}
+
+.reset {
+  background: #ff4b4b;
+  margin-top: 10px;
 }
 
 /* resultado: fondo y texto adaptados para tema oscuro */
 .result-box {
-  width: 100%;
-  padding: 18px;
-  border-radius: 14px;
-  box-sizing: border-box;
+  margin-top: 28px;
+  padding: clamp(14px, 3.5vw, 20px);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.02);
   display: none;
   animation: fadeIn 0.5s ease;
 }
 
 .result-line {
+  font-size: 15px;
   margin: 6px 0;
+  color: var(--text);
 }
 
-/* ===== Ajustes responsivos: móviles más grandes y pantallas altas normales ===== */
-html, body {
-  height: 100%;
+.big-total {
+  margin-top: 18px;
+  text-align: center;
+  font-size: clamp(22px, 6vw, 34px);
+  font-weight: 900;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Dar más espacio lateral en pantallas pequeñas y permitir que la app use vw */
-body {
-  padding: 4vw;
+
+/* Unificar tamaño de inputs y selects */
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  height: 50px; /* MISMA ALTURA FIJA */
 }
 
-/* Hacer que la card se adapte al ancho de la pantalla, limitar altura y permitir scroll interno */
-.app {
-  width: min(420px, 96vw);
-  max-width: 100%;
-  max-height: calc(100vh - 8vh);
-  overflow: auto;
-  padding: clamp(16px, 4vw, 28px);
-  border-radius: clamp(12px, 4vw, 25px);
+/* Añadir espaciado uniforme entre cajas de input */
+.input-box {
+  margin-top: 10px;
 }
 
-/* Móviles: aumentar tamaños para mejor legibilidad y targets táctiles */
-@media (max-width: 600px) {
-  h1 {
-    font-size: clamp(20px, 8vw, 30px);
-    margin-bottom: 28px;
-  }
-
-  input,
-  select {
-    height: 60px;
-    font-size: 18px;
-    padding: 14px;
+/* Media queries mejoradoss */
+@media (max-width: 900px) {
+  /* En tablets/pequeños portátiles acercamos un poco al modo móvil */
+  .app {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    height: 100vh;
+    padding: clamp(16px, 5vw, 28px);
     border-radius: 14px;
   }
-
-  button {
-    padding: 16px;
-    font-size: 18px;
-    border-radius: 14px;
-  }
-
-  .big-total {
-    font-size: clamp(28px, 10vw, 40px);
-  }
-
-  .result-box {
-    padding: 16px;
-  }
 }
 
-/* --- NUEVAS REGLAS: MODO PANTALLA COMPLETA EN MÓVILES --- */
-@media (max-width: 480px), (pointer: coarse) and (max-height: 900px) {
-  /* usar safe-area para iOS */
+/* MÓVIL: ocupar todo el viewport y agrandar elementos para que se vean "grandes a lo ancho y largo" */
+@media (max-width: 720px) {
   body {
     padding: 0;
-    min-height: 100vh;
-    background-position: center;
+    align-items: stretch; /* permitir que .app ocupe todo el alto */
   }
-
   .app {
     width: 100vw;
     height: 100vh;
     max-height: 100vh;
     margin: 0;
-    border-radius: 0;
-    padding: var(--app-padding);
+    padding: clamp(18px, 6vw, 30px);
+    border-radius: 6px; /* menos radio para aprovechar el espacio */
     justify-content: flex-start;
   }
-
   h1 {
-    margin: 12px 0 18px;
-    padding-top: env(safe-area-inset-top);
-    text-align: center;
+    margin-bottom: clamp(12px, 6vw, 20px);
+    font-size: clamp(20px, 8vw, 28px);
   }
 
-  /* Inputs y botones más grandes para tocar con el dedo */
-  input, select, button {
-    height: 64px;
-    font-size: 18px;
+  /* Inputs, selects y botones más grandes en móvil para mejor usabilidad */
+  input,
+  select {
+    padding: clamp(14px, 5vw, 18px);
+    height: clamp(56px, 8.5vw, 64px);
+    font-size: clamp(16px, 5vw, 18px);
+  }
+  button {
+    padding: clamp(14px, 5vw, 18px);
+    height: clamp(56px, 8.5vw, 64px);
+    font-size: clamp(16px, 5vw, 18px);
   }
 
-  /* Asegurar que resultados y contenido puedan hacer scroll */
   .result-box {
-    margin-top: 16px;
-    flex-shrink: 0;
+    padding: clamp(16px, 5vw, 22px);
   }
-
-  /* Si el formulario es más alto que la pantalla, permitir scroll interno manteniendo header visible */
-  .app > .input-box, .app > button, .result-box {
-    width: calc(100% - 2 * 4vw);
-    margin-left: auto;
-    margin-right: auto;
+  .big-total {
+    font-size: clamp(20px, 10vw, 36px);
   }
 }
 
-/* Pantallas grandes: conservar aspecto compacto */
-@media (min-width: 1000px) {
-  :root {
-    --app-max-width: 420px;
-    --app-padding: 28px;
-    --control-height: 50px;
-    --control-radius: 15px;
-    --gap: 12px;
+/* Ajustes extra para pantallas muy pequeñas */
+@media (max-width: 360px) {
+  body {
+    padding: 6px;
   }
-
   .app {
-    width: 420px;
-    border-radius: 20px;
-    padding: var(--app-padding);
+    border-radius: 6px;
+  }
+  .input-box {
+    margin-top: 8px;
   }
 }
 
-/* Evitar transformaciones inesperadas en pantallas HiDPI */
-@media (min-resolution: 2dppx) {
-  .app { transform: none; }
-}
+
+
 
 </style>
 </head>
-
-
-
-
 
 <body>
 <div class="app">
