@@ -16,15 +16,6 @@
   --muted: #9aa6b2;
   --accent: #8b5cf6;
   --accent2: #06b6d4;
-  --shadow: rgba(0, 0, 0, 0.7);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: linear-gradient(180deg, #071029 0%, #021022 100%);
-    --bg-fallback: #071029;
-    --card: rgba(10, 18, 30, 0.6);
-  }
 }
 
 /* ===== ESTILO GENERAL ===== */
@@ -47,13 +38,9 @@ html, body {
   max-height: 100vh;
 
   margin: 0;
-  padding: clamp(16px, 5vw, 30px);
+  padding: 28px;
 
   background: var(--card);
-  border-radius: 0;
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
 
   overflow-y: auto;   /* scroll interno */
   overflow-x: hidden;
@@ -69,32 +56,32 @@ html, body {
 h1 {
   margin: 0 0 40px 0;
   text-align: center;
-  font-size: clamp(22px, 6vw, 30px);
+  font-size: clamp(26px, 6vw, 32px);
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   -webkit-background-clip: text;
   color: transparent;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 label {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
 }
 
 .input-box {
-  margin-top: 10px;
+  margin-top: 14px;
 }
 
 input,
 select {
   width: 100%;
-  padding: clamp(12px, 3vw, 16px);
-  height: clamp(48px, 7vw, 60px);
+  padding: 16px;
+  height: 60px;
   border-radius: 14px;
   border: none;
   background: rgba(255,255,255,0.03);
   color: var(--text);
-  font-size: clamp(14px, 4vw, 18px);
+  font-size: 18px;
 }
 
 input:focus,
@@ -109,19 +96,16 @@ select option {
 
 button {
   width: 100%;
-  padding: clamp(12px, 3vw, 18px);
+  padding: 16px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 700;
   margin-top: 20px;
   border-radius: 14px;
+  background: linear-gradient(45deg, var(--accent), var(--accent2));
+  color: white;
   border: none;
   cursor: pointer;
-  font-size: clamp(14px, 4vw, 18px);
-  font-weight: 700;
-  color: white;
-  background: linear-gradient(45deg, var(--accent), var(--accent2));
-}
-
-button:hover {
-  transform: scale(1.02);
 }
 
 .reset {
@@ -131,26 +115,65 @@ button:hover {
 /* RESULTADOS */
 .result-box {
   margin-top: 22px;
-  padding: clamp(14px, 4vw, 20px);
+  padding: 20px;
   border-radius: 20px;
   background: rgba(255,255,255,0.02);
   display: none;
 }
 
 .result-line {
-  font-size: clamp(14px, 4vw, 18px);
+  font-size: 18px;
   margin: 6px 0;
   color: var(--text);
 }
 
 .big-total {
-  margin-top: 18px;
+  margin-top: 20px;
   text-align: center;
-  font-size: clamp(24px, 8vw, 40px);
+  font-size: 34px;
   font-weight: 900;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   -webkit-background-clip: text;
   color: transparent;
+}
+
+/* ===== AJUSTE ESPECIAL PARA TELÉFONOS: TODO GRANDE ===== */
+@media (max-width: 650px) {
+
+  .app {
+    padding: 34px;
+  }
+
+  h1 {
+    font-size: 40px;
+    margin-bottom: 45px;
+  }
+
+  label {
+    font-size: 22px;
+  }
+
+  input,
+  select {
+    height: 80px;
+    font-size: 26px;
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  button {
+    height: 80px;
+    font-size: 28px;
+    border-radius: 20px;
+  }
+
+  .result-line {
+    font-size: 24px;
+  }
+
+  .big-total {
+    font-size: 48px;
+  }
 }
 
 </style>
@@ -176,7 +199,7 @@ button:hover {
       <option value="fija">Ganancia fija (MXN)</option>
       <option value="porcentaje">Porcentaje (%)</option>
     </select>
-    <input type="number" id="ganancia" placeholder="Ejemplo: 5" style="margin-top: 8px" />
+    <input type="number" id="ganancia" placeholder="Ejemplo: 5" style="margin-top: 10px" />
   </div>
 
   <div class="input-box">
@@ -230,6 +253,7 @@ window.addEventListener("load", () => {
 tasa.addEventListener("input", () => {
   localStorage.setItem("tasaComision", tasa.value);
 });
+
 ganancia.addEventListener("input", () => {
   localStorage.setItem("gananciaValor", ganancia.value);
 });
