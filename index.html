@@ -102,46 +102,46 @@ h1 {
   margin-bottom: 70px; /* separa título del primer campo */
 }
 
+/* labels y textos: hacerlos responsivos */
 label {
-  font-size: 14px;
+  font-size: clamp(13px, 2.5vw, 15px);
   color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
 }
 
-/* Inputs: contraste para tema oscuro */
+/* Inputs, selects: garantizar tamaño y legibilidad consistente */
 input,
 select {
   width: 100%;
-  padding: clamp(10px, 2vw, 14px);
-  height: clamp(44px, 7vw, 50px);
+  padding: 14px;
+  height: 50px; /* MISMA ALTURA FIJA */
   box-sizing: border-box;
   border-radius: 15px;
   border: none;
-  background: rgba(255,255,255,0.03); /* oscuro/translúcido */
+  background: rgba(255,255,255,0.03);
   color: var(--text);
   font-size: clamp(14px, 3vw, 16px);
   outline: none;
   transition: 0.25s;
 }
 
-/* focus más sutil y consistente */
-input:focus,
-select:focus {
-  background: rgba(255,255,255,0.06);
-}
-
-/* Asegurar que los <select> y su listado sean oscuros con texto blanco */
+/* estilo específico para combobox (select) y sus opciones */
 select {
-  color: #ffffff; /* texto blanco dentro del select */
+  color: #ffffff;
   background: rgba(255,255,255,0.03);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  font-size: clamp(14px, 3vw, 16px);
 }
 
-/* Forzar fondo oscuro y texto blanco en las opciones del dropdown */
+/* Asegurar que las opciones del dropdown sean legibles (algunas plataformas ignoran estilos) */
 select option {
-  background: #071220 !important; /* fondo oscuro del listado */
-  color: #ffffff !important;      /* texto blanco */
+  background: #071220 !important;
+  color: #ffffff !important;
+  font-size: 15px;
+  padding: 6px;
 }
 
 button {
@@ -168,26 +168,16 @@ button:hover {
   margin-top: 10px;
 }
 
-/* resultado: fondo y texto adaptados para tema oscuro */
-.result-box {
-  margin-top: 28px;
-  padding: clamp(14px, 3.5vw, 20px);
-  border-radius: 20px;
-  background: rgba(255,255,255,0.02);
-  display: none;
-  animation: fadeIn 0.5s ease;
-}
-
+/* resultado: textos adaptados y responsivos */
 .result-line {
-  font-size: 15px;
+  font-size: clamp(14px, 3vw, 16px);
   margin: 6px 0;
   color: var(--text);
 }
-
 .big-total {
   margin-top: 18px;
   text-align: center;
-  font-size: clamp(22px, 6vw, 34px);
+  font-size: clamp(20px, 6vw, 34px);
   font-weight: 900;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
   background-clip: text;
@@ -221,6 +211,10 @@ select {
     padding: clamp(16px, 5vw, 28px);
     border-radius: 14px;
   }
+  label { font-size: clamp(14px, 3.5vw, 16px); }
+  select, input { font-size: clamp(15px, 4vw, 18px); height: clamp(56px, 7.5vw, 64px); }
+  select option { font-size: 16px; }
+  .result-line { font-size: clamp(15px, 4vw, 18px); }
 }
 
 /* MÓVIL: ocupar todo el viewport y agrandar elementos para que se vean "grandes a lo ancho y largo" */
@@ -243,25 +237,27 @@ select {
     font-size: clamp(20px, 8vw, 28px);
   }
 
-  /* Inputs, selects y botones más grandes en móvil para mejor usabilidad */
+  /* Labels y combobox más grandes en móvil */
+  label { font-size: clamp(16px, 6vw, 18px); margin-bottom: 8px; }
   input,
   select {
     padding: clamp(14px, 5vw, 18px);
-    height: clamp(56px, 8.5vw, 64px);
-    font-size: clamp(16px, 5vw, 18px);
+    height: clamp(64px, 10vw, 72px);
+    font-size: clamp(17px, 6vw, 20px);
   }
+  select option { font-size: 18px; padding: 10px; }
+
   button {
     padding: clamp(14px, 5vw, 18px);
-    height: clamp(56px, 8.5vw, 64px);
+    height: clamp(64px, 10vw, 72px);
     font-size: clamp(16px, 5vw, 18px);
   }
 
   .result-box {
     padding: clamp(16px, 5vw, 22px);
   }
-  .big-total {
-    font-size: clamp(20px, 10vw, 36px);
-  }
+  .result-line { font-size: clamp(17px, 6vw, 20px); }
+  .big-total { font-size: clamp(22px, 10vw, 40px); }
 }
 
 /* Ajustes extra para pantallas muy pequeñas */
