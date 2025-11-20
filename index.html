@@ -6,18 +6,19 @@
 <title>Calculadora de Comisiones - App Pro</title>
 
 <style>
-/* ===== VARIABLES DEL SISTEMA (MODO AUTOMÁTICO) ====== */
+/* ===== VARIABLES DEL SISTEMA (MODO OSCURO FORZADO) ====== */
 :root {
-  /* Fondo en degradado claro y colores de acento modernos */
-  --bg: linear-gradient(180deg, #f5f8ff 0%, #eef6ff 100%);
-  --bg-fallback: #f5f8ff; /* fallback si el gradiente no se aplica */
-  /* card ahora con un sutil tinte en degradado para evitar blanco plano */
-  --card: linear-gradient(135deg, rgba(124,58,237,0.10), rgba(6,182,212,0.06));
-  --text: #0f1724;
-  --muted: #68707a;
-  --accent: #7c3aed;   /* violeta moderno */
-  --accent2: #06b6d4;  /* cian */
-  --shadow: rgba(16, 24, 40, 0.08);
+  /* Fondo oscuro en degradado y fallback */
+  --bg: linear-gradient(180deg, #061021 0%, #031220 100%);
+  --bg-fallback: #031220;
+
+  /* Card oscuro sutil con ligero brillo */
+  --card: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --text: #e6eef8;
+  --muted: #9aa6b2;
+  --accent: #8b5cf6;
+  --accent2: #06b6d4;
+  --shadow: rgba(0, 0, 0, 0.7);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,7 +40,7 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: var(--bg);
-  background-color: var(--bg-fallback); /* fallback por si no se renderiza el gradiente */
+  background-color: var(--bg-fallback); /* fallback oscuro */
   display: flex;
   justify-content: center;
   padding: 25px;
@@ -49,13 +50,13 @@ body {
 .app {
   width: 420px;
   max-width: 95%;
-  background: var(--card);
+  background: var(--card); /* card oscuro */
   padding: 28px;
   border-radius: 25px;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.04); /* borde sutil claro sobre fondo oscuro */
   box-shadow: 0 18px 40px var(--shadow);
-  border: 1px solid rgba(255,255,255,0.06); /* borde sutil para efecto glass */
   animation: fadeIn 0.7s ease;
 }
 
@@ -81,7 +82,7 @@ label {
   color: var(--muted);
 }
 
-/* Inputs: mayor contraste con el card y coherencia con tema */
+/* Inputs: contraste para tema oscuro */
 input,
 select {
   width: 100%;
@@ -90,26 +91,17 @@ select {
   box-sizing: border-box;
   border-radius: 15px;
   border: none;
-  background: rgba(255,255,255,0.08); /* ligero contraste sobre el card */
+  background: rgba(255,255,255,0.03); /* oscuro/translúcido */
   color: var(--text);
   font-size: 16px;
   outline: none;
   transition: 0.25s;
 }
 
-/* contraste en modo oscuro */
-@media (prefers-color-scheme: dark) {
-  input,
-  select {
-    background: rgba(255,255,255,0.03);
-    color: var(--text);
-  }
-}
-
-/* focus más sutil y consistente en ambos modos */
+/* focus más sutil y consistente */
 input:focus,
 select:focus {
-  background: rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
 }
 
 button {
@@ -136,26 +128,20 @@ button:hover {
   margin-top: 10px;
 }
 
-/* resultado: fondo y texto adaptados para no perderse en blanco */
+/* resultado: fondo y texto adaptados para tema oscuro */
 .result-box {
   margin-top: 28px;
   padding: 20px;
   border-radius: 20px;
-  background: rgba(0, 0, 0, 0.04); /* sutil sombra para separar del card en modo claro */
+  background: rgba(255,255,255,0.02);
   display: none;
   animation: fadeIn 0.5s ease;
-}
-
-@media (prefers-color-scheme: dark) {
-  .result-box {
-    background: rgba(255,255,255,0.03);
-  }
 }
 
 .result-line {
   font-size: 15px;
   margin: 6px 0;
-  color: var(--text); /* usar color del tema en lugar de blanco fijo */
+  color: var(--text);
 }
 
 .big-total {
