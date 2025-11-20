@@ -6,13 +6,11 @@
 <title>Calculadora de Comisiones - App Pro</title>
 
 <style>
-/* ===== VARIABLES DEL SISTEMA (MODO OSCURO FORZADO) ====== */
+/* ===== VARIABLES DEL SISTEMA (MODO OSCURO) ====== */
 :root {
-  /* Fondo oscuro en degradado y fallback */
   --bg: linear-gradient(180deg, #061021 0%, #031220 100%);
   --bg-fallback: #031220;
 
-  /* Card oscuro sutil con ligero brillo */
   --card: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   --text: #e6eef8;
   --muted: #9aa6b2;
@@ -23,43 +21,25 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Fondo oscuro con degradado profundo */
     --bg: linear-gradient(180deg, #071029 0%, #021022 100%);
     --bg-fallback: #071029;
     --card: rgba(10, 18, 30, 0.6);
-    --text: #e6eef8;
-    --muted: #9aa6b2;
-    --accent: #8b5cf6;
-    --accent2: #06b6d4;
-    --shadow: rgba(2, 6, 23, 0.7);
   }
 }
 
 /* ===== ESTILO GENERAL ===== */
-html {
-  height: 100%;
-  box-sizing: border-box;
-}
-*, *::before, *::after { box-sizing: inherit; }
-
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* NO scroll global */
   font-family: "Poppins", sans-serif;
   background: var(--bg);
   background-color: var(--bg-fallback);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-  min-width: 100vw;
-  padding: 0;
-  overflow: hidden; /* evita doble scrollbar; el scroll será interno en .app */
 }
 
-/* Ajuste: en pantallas grandes mostrar como tarjeta centrada (ancho máximo razonable).
-   En pantallas pequeñas (media queries más abajo) se volverá fullscreen y se aumentarán tamaños. */
+/* ====== FULLSCREEN REAL ====== */
 .app {
   width: 100vw;
   height: 100vh;
@@ -67,45 +47,33 @@ body {
   max-height: 100vh;
 
   margin: 0;
-  padding: clamp(14px, 4vw, 36px);
+  padding: clamp(16px, 5vw, 30px);
 
   background: var(--card);
-  border-radius: 0; /* ocupa toda la pantalla completamente */
+  border-radius: 0;
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255,255,255,0.04);
-  box-shadow: none;
-  animation: fadeIn 0.7s ease;
+  overflow-y: auto;   /* scroll interno */
+  overflow-x: hidden;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: stretch;
-
-  overflow-y: auto; /* scroll interno */
-  overflow-x: hidden;
 
   box-sizing: border-box;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* ===== CONTENIDO ===== */
 h1 {
-  margin: 0;
+  margin: 0 0 40px 0;
   text-align: center;
-  font-size: clamp(20px, 4.5vw, 26px);
+  font-size: clamp(22px, 6vw, 30px);
   background: linear-gradient(45deg, var(--accent), var(--accent2));
-  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  -webkit-text-fill-color: transparent;
   font-weight: 800;
-  margin-bottom: 70px; /* separa título del primer campo */
 }
 
 label {
@@ -113,79 +81,64 @@ label {
   color: var(--muted);
 }
 
-/* Inputs: contraste para tema oscuro */
+.input-box {
+  margin-top: 10px;
+}
+
 input,
 select {
   width: 100%;
-  padding: clamp(10px, 2vw, 14px);
-  height: clamp(44px, 7vw, 50px);
-  box-sizing: border-box;
-  border-radius: 15px;
+  padding: clamp(12px, 3vw, 16px);
+  height: clamp(48px, 7vw, 60px);
+  border-radius: 14px;
   border: none;
-  background: rgba(255,255,255,0.03); /* oscuro/translúcido */
+  background: rgba(255,255,255,0.03);
   color: var(--text);
-  font-size: clamp(14px, 3vw, 16px);
-  outline: none;
-  transition: 0.25s;
+  font-size: clamp(14px, 4vw, 18px);
 }
 
-/* focus más sutil y consistente */
 input:focus,
 select:focus {
   background: rgba(255,255,255,0.06);
 }
 
-/* Asegurar que los <select> y su listado sean oscuros con texto blanco */
-select {
-  color: #ffffff; /* texto blanco dentro del select */
-  background: rgba(255,255,255,0.03);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-/* Forzar fondo oscuro y texto blanco en las opciones del dropdown */
 select option {
-  background: #071220 !important; /* fondo oscuro del listado */
-  color: #ffffff !important;      /* texto blanco */
+  background: #071220 !important;
+  color: white !important;
 }
 
 button {
   width: 100%;
-  padding: clamp(12px, 3vw, 15px);
-  margin-top: 22px;
+  padding: clamp(12px, 3vw, 18px);
+  margin-top: 20px;
   border-radius: 14px;
   border: none;
   cursor: pointer;
-  font-size: clamp(14px, 3.2vw, 16px);
+  font-size: clamp(14px, 4vw, 18px);
   font-weight: 700;
   color: white;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
-  transition: 0.25s;
 }
 
 button:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 12px var(--accent2);
+  transform: scale(1.02);
 }
 
 .reset {
   background: #ff4b4b;
-  margin-top: 10px;
 }
 
-/* resultado: fondo y texto adaptados para tema oscuro */
+/* RESULTADOS */
 .result-box {
-  margin-top: 28px;
-  padding: clamp(14px, 3.5vw, 20px);
+  margin-top: 22px;
+  padding: clamp(14px, 4vw, 20px);
   border-radius: 20px;
   background: rgba(255,255,255,0.02);
   display: none;
-  animation: fadeIn 0.5s ease;
 }
 
 .result-line {
-  font-size: 15px;
+  font-size: clamp(14px, 4vw, 18px);
   margin: 6px 0;
   color: var(--text);
 }
@@ -193,98 +146,12 @@ button:hover {
 .big-total {
   margin-top: 18px;
   text-align: center;
-  font-size: clamp(22px, 6vw, 34px);
+  font-size: clamp(24px, 8vw, 40px);
   font-weight: 900;
   background: linear-gradient(45deg, var(--accent), var(--accent2));
-  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  -webkit-text-fill-color: transparent;
 }
-
-
-/* Unificar tamaño de inputs y selects */
-input,
-select {
-  width: 100%;
-  padding: 14px;
-  height: 50px; /* MISMA ALTURA FIJA */
-}
-
-/* Añadir espaciado uniforme entre cajas de input */
-.input-box {
-  margin-top: 10px;
-}
-
-/* Media queries mejoradoss */
-@media (max-width: 900px) {
-  /* En tablets/pequeños portátiles acercamos un poco al modo móvil */
-  .app {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    height: 100vh;
-    padding: clamp(16px, 5vw, 28px);
-    border-radius: 14px;
-  }
-}
-
-/* MÓVIL: ocupar todo el viewport y agrandar elementos para que se vean "grandes a lo ancho y largo" */
-@media (max-width: 720px) {
-  body {
-    padding: 0;
-    align-items: stretch; /* permitir que .app ocupe todo el alto */
-  }
-  .app {
-    width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
-    margin: 0;
-    padding: clamp(18px, 6vw, 30px);
-    border-radius: 6px; /* menos radio para aprovechar el espacio */
-    justify-content: flex-start;
-  }
-  h1 {
-    margin-bottom: clamp(12px, 6vw, 20px);
-    font-size: clamp(20px, 8vw, 28px);
-  }
-
-  /* Inputs, selects y botones más grandes en móvil para mejor usabilidad */
-  input,
-  select {
-    padding: clamp(14px, 5vw, 18px);
-    height: clamp(56px, 8.5vw, 64px);
-    font-size: clamp(16px, 5vw, 18px);
-  }
-  button {
-    padding: clamp(14px, 5vw, 18px);
-    height: clamp(56px, 8.5vw, 64px);
-    font-size: clamp(16px, 5vw, 18px);
-  }
-
-  .result-box {
-    padding: clamp(16px, 5vw, 22px);
-  }
-  .big-total {
-    font-size: clamp(20px, 10vw, 36px);
-  }
-}
-
-/* Ajustes extra para pantallas muy pequeñas */
-@media (max-width: 360px) {
-  body {
-    padding: 6px;
-  }
-  .app {
-    border-radius: 6px;
-  }
-  .input-box {
-    margin-top: 8px;
-  }
-}
-
-
-
 
 </style>
 </head>
@@ -351,10 +218,7 @@ const tMin = document.getElementById("minimoTxt");
 const tGan = document.getElementById("gananciaTxt");
 const tTot = document.getElementById("totalTxt");
 
-
-/* ====== AUTO-GUARDADO (TASA + GANANCIA) ======== */
-
-// Cargar valores guardados
+// AUTO-GUARDADO
 window.addEventListener("load", () => {
   const savedTasa = localStorage.getItem("tasaComision");
   if (savedTasa !== null) tasa.value = savedTasa;
@@ -363,16 +227,14 @@ window.addEventListener("load", () => {
   if (savedGanancia !== null) ganancia.value = savedGanancia;
 });
 
-// Guardar automaticamente cada cambio
 tasa.addEventListener("input", () => {
   localStorage.setItem("tasaComision", tasa.value);
 });
-
 ganancia.addEventListener("input", () => {
   localStorage.setItem("gananciaValor", ganancia.value);
 });
 
-// ========== CALCULAR ==========
+// CALCULAR
 document.getElementById("btnCalc").onclick = () => {
   const m = Number(monto.value) || 0;
   const t = Number(tasa.value) / 100;
@@ -380,14 +242,10 @@ document.getElementById("btnCalc").onclick = () => {
 
   const com = m * t;
   const minimo = m / (1 - t);
-
   let gFinal = tipo.value === "fija" ? g : minimo * (g / 100);
-
   let total = minimo + gFinal;
 
-  if (red.value === "roundUp") {
-    total = Math.ceil(total);
-  }
+  if (red.value === "roundUp") total = Math.ceil(total);
 
   tCom.textContent = "$" + money(com);
   tMin.textContent = "$" + money(minimo);
@@ -397,16 +255,12 @@ document.getElementById("btnCalc").onclick = () => {
   res.style.display = "block";
 };
 
-// ===== REINICIARrrrrr =====
+// RESET
 document.getElementById("btnReset").onclick = () => {
   monto.value = "";
   tasa.value = "4.06";
   ganancia.value = "";
   res.style.display = "none";
-
-  // Opcional: limpiar almacenamiento
-  // localStorage.removeItem("tasaComision");
-  // localStorage.removeItem("gananciaValor");
 };
 </script>
 
