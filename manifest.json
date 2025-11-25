@@ -1,32 +1,22 @@
 {
   "name": "Calculadora de Comisiones",
   "short_name": "Comisiones",
-  "description": "Aplicación para calcular comisiones de forma rápida y precisa.",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "scope": "/",
   "display": "standalone",
+  "background_color": "#031220",
+  "theme_color": "#031220",
   "orientation": "portrait",
-  "background_color": "#0A2540",
-  "theme_color": "#0A2540",
-  "lang": "es",
   "icons": [
     {
-      "src": "/icons/icon-192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
   ]
 }
